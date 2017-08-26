@@ -13,3 +13,5 @@ dependencies {
     compile project(':camflake')
     compile('org.springframework.boot:spring-boot-starter-jersey')
 }
+
+uploadArchives.enabled = false
