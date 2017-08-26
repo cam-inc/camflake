@@ -5,12 +5,14 @@
  * For more details take a look at the Java Libraries chapter in the Gradle
  * user guide available at https://docs.gradle.org/3.5/userguide/java_library_plugin.html
  */
-// Apply the java-library plugin to add support for Java Library
 plugins {
     id "java-library"
     id "org.sonarqube" version "2.5"
     id "jacoco"
 }
+
+group = "com.camobile.camflake"
+version = "0.0.1"
 
 repositories {
     jcenter()
@@ -20,4 +22,29 @@ dependencies {
     implementation('org.slf4j:slf4j-api:1.7.25')
     testImplementation('org.jmockit:jmockit:1.31')
     testImplementation('junit:junit:4.12')
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from "${buildDir}/javadoc"
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+def isDevBuild = true
+version += "-SNAPSHOT"
+
+uploadArchives {
+    repositories {
+        if (isDevBuild) {
+            mavenLocal()
+        }
+    }
 }
