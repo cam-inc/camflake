@@ -9,4 +9,4 @@
  */
 rootProject.name = 'camflake'
 
-include 'camflake'
+include 'camflake','sample'
