@@ -21,15 +21,6 @@ public final class CamflakeException extends RuntimeException {
      * @param cause 原因例外
      */
     public CamflakeException(String message, Throwable cause) {
-        super(cause);
-    }
-
-    /**
-     * {@link CamflakeException} インスタンスを初期化します。
-     *
-     * @param cause 原因例外
-     */
-    public CamflakeException(Throwable cause) {
-        super(cause);
+        super(message, cause);
     }
 }

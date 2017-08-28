@@ -190,7 +190,7 @@ public final class Camflake {
             Thread.sleep(durationMillis);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new CamflakeException(e);
+            throw new CamflakeException("Interruption occurred during thread sleep.", e);
         }
     }
 }
