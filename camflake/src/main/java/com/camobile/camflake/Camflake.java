@@ -22,12 +22,12 @@ public final class Camflake {
     /**
      * 時間上限:基準時刻より2199023255551msec秒経過
      */
-    private static final long TIME_MAX = 1L << 41 - 1L; // 時間の上限msec
+    private static final long TIME_MAX = (1L << 41) - 1L; // 時間の上限msec
 
     /**
      * msecあたり最大で割当可能なシーケンス番号(0-63)
      */
-    private static final long SEQUENCE_MAX = 1L << 6 - 1L;
+    private static final long SEQUENCE_MAX = (1L << 6) - 1L;
 
     /**
      * ロックオブジェクト
@@ -190,7 +190,7 @@ public final class Camflake {
             Thread.sleep(durationMillis);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new CamflakeException(e);
+            throw new CamflakeException("Interruption occurred during thread sleep.", e);
         }
     }
 }

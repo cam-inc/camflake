@@ -8,7 +8,6 @@ import java.net.UnknownHostException;
 
 /**
  * ローカルマシンのIPアドレスの下16bitをもとに生成されるマシンIDです。
- * TODO ロジックの見直しが必要（あくまで参照実装）
  */
 class DefaultMachineId implements MachineId {
 
@@ -28,8 +27,9 @@ class DefaultMachineId implements MachineId {
             return machineId;
 
         } catch (UnknownHostException e) {
-            log.error("Failed to process machine id.", e);
-            throw new CamflakeException(e);
+            String message = "Failed to process machine id.";
+            log.error(message, e);
+            throw new CamflakeException(message, e);
         }
     }
 }
