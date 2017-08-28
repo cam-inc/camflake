@@ -119,7 +119,7 @@ Camflake camflake = new Camflake(machineId);
 
 #### Modify base time
 
-Construct Canflake with any proper `Instant` instance to modify base time.
+Construct Camflake with any proper `Instant` instance to modify base time.
 
 ```java
 // This example modifies base time to 2017-08-01T00:00:00Z
@@ -130,4 +130,5 @@ Camflake camflake = new Camflake(new DefaultMachineId(), baseTime);
 ## Licence
 
 This library is MIT license.
+
 See [LICENSE](LICENSE.txt) for details.
