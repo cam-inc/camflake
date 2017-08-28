@@ -20,12 +20,12 @@ public final class Camflake {
     private static Logger log = LoggerFactory.getLogger(Camflake.class);
 
     /**
-     * 時間上限:基準時刻より1099511627776msec秒経過
+     * 時間上限:基準時刻より2199023255551msec秒経過
      */
     private static final long TIME_MAX = 1L << 41 - 1L; // 時間の上限msec
 
     /**
-     * msecあたり最大で割当可能なシーケンス番号(63)
+     * msecあたり最大で割当可能なシーケンス番号(0-63)
      */
     private static final long SEQUENCE_MAX = 1L << 6 - 1L;
 
@@ -160,12 +160,12 @@ public final class Camflake {
 
     /**
      * ある経過時間におけるシーケンスIDを取得します。
-     * 払い出されるシーケンスIDの最大値としては127を想定しますが、
+     * 払い出されるシーケンスIDの最大値としては63を想定しますが、
      * それを超えて払い出された場合もこのメソッド内では検知しません。
      * 必ず呼び出し元でシーケンスIDの正当性を検証してください。
      *
      * @param elapsed 基準時刻からの経過時間(ms)
-     * @return シーケンスID(0-127を想定するがそれを超えて払い出す可能性がある)
+     * @return シーケンスID(0-63を想定するがそれを超えて払い出す可能性がある)
      */
     private int getSequence(long elapsed) {
 
