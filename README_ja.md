@@ -12,7 +12,7 @@ Camflakeは63bitの符号なし整数としてユニークIDを生成します�
 * 16 bits : マシンID
 ```
 
-詳細情報は [Basis](#Basis)を参照してください。
+詳細情報は [Basis](#basis)を参照してください。
 
 
 ## Requirements
@@ -51,10 +51,11 @@ nextメソッドを実行するごとに異なるユニークIDを生成しま�
 ### Run sample web apps
 
 Camflakeを利用してユニークIDを払い出すサンプルWebアプリケーションを本プロジェクトの`sample`ディレクトリ配下に作成しています。
+
 プロジェクトのルートフォルダで以下のコマンドを実行してください。
 
 ```bash
-./gradew bootRun
+./gradlew bootRun
 ```
 
 アプリケーションが起動した状態で以下にアクセスすることでユニークIDを取得することができます。
