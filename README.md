@@ -54,7 +54,7 @@ We have provided a sample web application which generates the unique ID by using
 To start the app, invoke the command below at the root directory of this project. 
 
 ```bash
-./gradew bootRun
+./gradlew bootRun
 ```
 
 After started the app, you can get the unique ID by accessing to the URL on below.
