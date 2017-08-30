@@ -2,9 +2,9 @@ Camflake
 ===
 
 Camflake is a distributed unique ID generator implemented with Java.
-This library is inspired by [Snowflake](https://github.com/twitter/snowflake) and [Sonyflake](https://github.com/sony/sonyflake).
+This library is inspired by [Twitter's Snowflake](https://github.com/twitter/snowflake) and [Sony's Sonyflake](https://github.com/sony/sonyflake).
 
-Camflake generates the unique ID as unsigned 63 bit long value.
+Camflake generates an unique ID as unsigned 63 bit long value.
 It is composed of values as below.
 ```
 * 41 bits : Elapsed time from base time（msec order）
@@ -45,7 +45,7 @@ Camflake camflake = new Camflake();
 long id = camflake.next();
 ```
 
-The instance generates another unique ID each time `next` method is invoked.
+The instance generates different unique ID each time `next` method is invoked.
 
 
 ### Run sample web apps
@@ -79,13 +79,13 @@ To generate unique ID, Camflake uses elapsed time from base time.
 The default base time is `2017-06-01T00:00:00Z`.
 
 You can modify the base time during initialization of Camflake instance.
-Though, RuntimeException will be thrown if you pass a invalid parameter to the constructor.
+If you pass an invalid parameter to the constructor, RuntimeException will be thrown.
 
 * A base time which is before UNIX epoch (`1970-01-01T00:00:00Z`)
 * A base time which is after current time.
 
 The max time of the elapsed time is about 69 years (2,199,023,255,551 msec) from base time.
-RuntimeException will thrown when the elapsed time exceeded the max time.
+And RuntimeException will thrown when the elapsed time exceeded the max time.
 
 
 #### Sequence number
@@ -96,7 +96,7 @@ That is to say, Camflake instance can generate maximum 64 unique ID in milliseco
 
 #### Machine ID
 Machine ID is an identifier of Camflake instance.
-The latter 16 bits of the host address will be used to create machine ID as default.
+The latter 16 bits of the host address will be used to create machine ID by default.
 
 You can develop your own machine ID generator to avoid generating duplicated ID in cases like below.
 
@@ -106,7 +106,7 @@ You can develop your own machine ID generator to avoid generating duplicated ID 
 
 ## Advanced usages
 
-You can modify Camflake by initializing with any proper base time and machine id.
+You can modify Camflake by initializing with any proper base time or machine ID.
 
 #### Modify machine id
 
