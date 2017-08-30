@@ -1,19 +1,18 @@
 Camflake
 ===
 
-Camflake is a distributed unique ID generator implemented with Java.
+Camflake is a distributed unique ID generator implemented in Java.
 This library is inspired by [Twitter's Snowflake](https://github.com/twitter/snowflake) and [Sony's Sonyflake](https://github.com/sony/sonyflake).
 
-Camflake generates an unique ID as unsigned 63 bit long value.
-It is composed of values as below.
+Camflake generates an unique ID as unsigned 63 bit long value, which is composed of these below values.
 ```
 * 41 bits : Elapsed time from base time（msec order）
 *  6 bits : Sequence number
 * 16 bits : Machine ID
 ```
 
-Refer [Basis](#basis) for more details.
-And Japanese documents are [here](README_ja.md).
+Refer [Basis](#basis) path for more details.
+And you can find the Japanese documents [here](README_ja.md).
 
 
 ## Requirements
@@ -45,19 +44,19 @@ Camflake camflake = new Camflake();
 long id = camflake.next();
 ```
 
-The instance generates different unique ID each time `next` method is invoked.
+Every time `next` method is invoked, the instance generates a different unique ID.
 
 
 ### Run sample web apps
 
 We have provided a sample web application which generates the unique ID by using Camflake.
-To start the app, invoke the command below at the root directory of this project. 
+To start app, invoke below command at the root directory of this project.
 
 ```bash
 ./gradlew bootRun
 ```
 
-After started the app, you can get the unique ID by accessing to the URL on below.
+After app started, you can get the unique ID by accessing to the URL below.
 
 ```bash
 curl http://localhost:8080/id/next
@@ -78,33 +77,32 @@ Camflake generates the unique ID as unsigned 63 bit long value. The unique ID is
 To generate unique ID, Camflake uses elapsed time from base time.
 The default base time is `2017-06-01T00:00:00Z`.
 
-You can modify the base time during initialization of Camflake instance.
-If you pass an invalid parameter to the constructor, RuntimeException will be thrown.
+You can modify base time during Camflake instance's initialization.
+If you pass an invalid parameter to constructor, Runtime Exception will be thrown.
 
-* A base time which is before UNIX epoch (`1970-01-01T00:00:00Z`)
-* A base time which is after current time.
+* A base time, which is before UNIX epoch (`1970-01-01T00:00:00Z`)
+* A base time, which is after current time.
 
-The max time of the elapsed time is about 69 years (2,199,023,255,551 msec) from base time.
-And RuntimeException will thrown when the elapsed time exceeded the max time.
+The elapsed time maximum is about 69 years (2,199,023,255,551 msec) from the base time.
+And Runtime Exception will be thrown when the elapsed time exceeded the maximum.
 
 
 #### Sequence number
-Sequence number is an identifier to determine the unique ID which was created on same time.
-This number will be generated max to 64 in millisecond.
-That is to say, Camflake instance can generate maximum 64 unique ID in millisecond.
+Sequence number is the unique ID's identifier, which determines among the unique IDs created at the same time.
+The sequence number could be generated maximum to 64 numbers in millisecond.
+Thus, Camflake instance could generate maximum 64 different unique ID in millisecond.
 
 
 #### Machine ID
-Machine ID is an identifier of Camflake instance.
-The latter 16 bits of the host address will be used to create machine ID by default.
+Machine ID is the Camflake instance's identifier, which is created by default using the latter 16-bits of the host's IP address.
 
-You can develop your own machine ID generator to avoid generating duplicated ID in cases like below.
+You can develop your own machine ID generator to avoid generating duplicated ID in the below cases.
 
-* If you have to run Camflake on multiple Java process on one host machine.
-* If you have to run Camflake on multiple Docker container on one host machine.
+1. You have to run Camflake on multiple Java process on one host machine.
+2. You have to run Camflake on multiple Docker container on one host machine.
 
 
-## Advanced usages
+## Advanced usage
 
 You can modify Camflake by initializing with any proper base time or machine ID.
 
