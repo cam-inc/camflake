@@ -39,4 +39,5 @@ jobs:
           key: m2-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: gradle test
+      - run: gradle clean test
+      - run: gradle :camflake:sendCoverageToCodacy

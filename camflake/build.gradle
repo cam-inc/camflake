@@ -13,14 +13,21 @@ plugins {
 
 group = "com.camobile.camflake"
 
+configurations {
+    codacy
+}
+
 repositories {
     jcenter()
+    maven { url "https://jitpack.io" }
+    maven { url "http://dl.bintray.com/typesafe/maven-releases" }
 }
 
 dependencies {
     implementation('org.slf4j:slf4j-api:1.7.25')
     testImplementation('org.jmockit:jmockit:1.31')
     testImplementation('junit:junit:4.12')
+    codacy('com.github.codacy:codacy-coverage-reporter:2.0.0')
 }
 
 task javadocJar(type: Jar) {
@@ -38,6 +45,17 @@ jacocoTestReport {
         xml.enabled = true
         html.enabled = true
     }
+}
+
+task sendCoverageToCodacy(type: JavaExec, dependsOn: jacocoTestReport) {
+    main = "com.codacy.CodacyCoverageReporter"
+    classpath = configurations.codacy
+    args = [
+            "-l",
+            "Java",
+            "-r",
+            "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+    ]
 }
 
 artifacts {
