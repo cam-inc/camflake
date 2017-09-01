@@ -33,6 +33,13 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
 artifacts {
     archives javadocJar, sourcesJar
 }
