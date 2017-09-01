@@ -44,3 +44,7 @@ jobs:
 
       - store_test_results:
           path: camflake/build/test-results/test
+      - store_artifacts:
+          path: camflake/build/reports/tests/test
+      - store_artifacts:
+          path: camflake/build/reports/jacoco/test/html
