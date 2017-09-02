@@ -1,8 +1,8 @@
 Camflake
 ===
 [![CircleCI](https://circleci.com/gh/cam-inc/camflake.svg?style=svg)](https://circleci.com/gh/cam-inc/camflake)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b693d8a4cdcf46d28b5c310e37d58f70)](https://www.codacy.com/app/camobile-io/camflake?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cam-inc/camflake&amp;utm_campaign=Badge_Grade)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/b693d8a4cdcf46d28b5c310e37d58f70)](https://www.codacy.com/app/camobile-io/camflake?utm_source=github.com&utm_medium=referral&utm_content=cam-inc/camflake&utm_campaign=Badge_Coverage)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ac8be06b974c479196f7d1c92b95ae0b)](https://www.codacy.com/app/camobile-io/camflake?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cam-inc/camflake&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/ac8be06b974c479196f7d1c92b95ae0b)](https://www.codacy.com/app/camobile-io/camflake?utm_source=github.com&utm_medium=referral&utm_content=cam-inc/camflake&utm_campaign=Badge_Coverage)
 
 CamflakeはJavaで実装された分散型のユニークID生成器です。
 本ライブラリは[Snowflake](https://github.com/twitter/snowflake)と[Sonyflake](https://github.com/sony/sonyflake)にインスパイアされて開発しました。
