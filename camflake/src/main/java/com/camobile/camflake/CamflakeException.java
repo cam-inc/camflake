@@ -1,24 +1,24 @@
 package com.camobile.camflake;
 
 /**
- * {@link Camflake}の実行時例外。
+ * Runtime exception of {@link Camflake}.
  */
 public final class CamflakeException extends RuntimeException {
 
     /**
-     * {@link CamflakeException} インスタンスを初期化します。
+     * Constructs a new exception with the specified detail message.
      *
-     * @param message 例外メッセージ
+     * @param message the detail message.
      */
     public CamflakeException(String message) {
         super(message);
     }
 
     /**
-     * {@link CamflakeException} インスタンスを初期化します。
+     * Constructs a new exception with the specified detail message and cause.
      *
-     * @param message 例外メッセージ
-     * @param cause 原因例外
+     * @param message the detail message.
+     * @param cause the cause.
      */
     public CamflakeException(String message, Throwable cause) {
         super(message, cause);

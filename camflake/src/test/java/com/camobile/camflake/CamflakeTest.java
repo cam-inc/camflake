@@ -5,7 +5,6 @@ import mockit.Expectations;
 import mockit.Mock;
 import mockit.MockUp;
 import mockit.Mocked;
-import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,21 +19,17 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
- * {@link Camflake}に対する単体テスト
+ * Unit tests for {@link Camflake}.
  */
 public class CamflakeTest {
 
     /**
-     * msecあたり最大で割当可能なシーケンス番号+1 (64)
+     * Maximum sequence ID + 1 (64)
      */
     private static final int SEQUENCE_MAX = 1 << 6;
 
-    @Before
-    public void setUp() {
-    }
-
     /**
-     * baseTimeを1970-01-01T00:00:00Z以前にすると初期化に失敗する
+     * Fails to construct Camflake instance as base time is before UNIX epoch (1970-01-01T00:00:00Z).
      */
     @Test(expected = CamflakeException.class)
     public void testConstructorFailsWhenBaseTimeIsBeforeEpoch() {
@@ -47,7 +42,7 @@ public class CamflakeTest {
     }
 
     /**
-     * baseTimeを未来時刻にすると初期化に失敗する
+     * Fails to construct Camflake instance as base time is after current time.
      */
     @Test(expected = CamflakeException.class)
     public void testConstructorFailsWhenBaseTimeIsAfterNow() {
@@ -59,7 +54,7 @@ public class CamflakeTest {
     }
 
     /**
-     * 基準時刻からの経過時間が上限を超えていると初期化に失敗する
+     * Fails to construct Camflake instance as elapsed time from base time exceeded maximum.
      */
     @Test(expected = CamflakeException.class)
     public void testConstructorFailsWhenExceededTimeLimit() {
@@ -76,7 +71,7 @@ public class CamflakeTest {
     }
 
     /**
-     * 毎回異なる値を払い出し、かつ払い出す度に値は大きくなる
+     * Generates different unique ID each time next method is invoked, and the latter is larger.
      */
     @Test
     public void testNext() {
@@ -90,7 +85,7 @@ public class CamflakeTest {
     }
 
     /**
-     * 実行時刻をモックして想定通りの値を返すことを確認する
+     * Generates the expected unique ID.
      */
     @Test
     public void testNextReturnsExpectedValue() {
@@ -103,10 +98,9 @@ public class CamflakeTest {
         new Expectations(Instant.class) {
             {
                 Instant.now();
-                // 初期化時は正常, 実行時に上限超え
                 returns(
-                    baseTime, // 初期化時
-                    execTime  // 実行時
+                    baseTime, // at initialize
+                    execTime  // at runtime
                 );
             }
         };
@@ -119,7 +113,7 @@ public class CamflakeTest {
     }
 
     /**
-     * 実行時に基準時刻からの経過時間が上限を超えると例外をスローする
+     * Throws CamflakeException if elapsed time from base time exceeded maximum.
      */
     @Test(expected = CamflakeException.class)
     public void testNextFailsWhenExceededTimeLimit() {
@@ -128,8 +122,8 @@ public class CamflakeTest {
             {
                 Instant.now();
                 returns(
-                    Instant.EPOCH, // 初期化時は正常
-                    exceededTime   // 実行時に上限超え
+                    Instant.EPOCH, // at initialize
+                    exceededTime   // when invoke next method
                 );
             }
         };
@@ -139,7 +133,7 @@ public class CamflakeTest {
     }
 
     /**
-     * ある経過時間においてシーケンスIDが上限まで振られた場合は一度だけリトライする
+     * Retries once if sequence ID exceeded maximum (63).
      */
     @Test
     public void testNextWithRetryOnce() {
@@ -150,16 +144,16 @@ public class CamflakeTest {
             {
                 Instant.now();
                 returns(
-                    execTime, // 初期化時
-                    execTime, // 実行時1回目
-                    execTime2 // 実行時2回目(上限超え）
+                    execTime, // at initialize
+                    execTime, // when invoke next method first time.
+                    execTime2 // when invoke next method second time.
                 );
             }
         };
 
         Camflake camflake = new Camflake(new TestMachineId(), Instant.EPOCH);
 
-        // 予めカウンタを上限に達した状態に変更してリトライさせる
+        // force update sequence ID to maximum to test retry.
         Deencapsulation.setField(camflake, "counter", new AtomicInteger(SEQUENCE_MAX));
 
         long id = camflake.next();
@@ -167,7 +161,7 @@ public class CamflakeTest {
     }
 
     /**
-     * シーケンスIDの再取得でも上限を超えた場合は例外をスローする
+     * Retried once but sequence ID exceeded maximum again throws CamflakeException as a result.
      */
     @Test(expected = CamflakeException.class)
     public void testNextWithRetryFailsWhenSequenceIsExceeded() {
@@ -183,7 +177,7 @@ public class CamflakeTest {
     }
 
     /**
-     * シーケンスIDの再取得の過程で{@link InterruptedException}が発生した場合は例外をスローする
+     * Throws CamflakeException if interruption occurred during thread sleeping.
      */
     @Test(expected = CamflakeException.class)
     public void testNextFailsWhenInterrupted(@Mocked Thread unused) throws InterruptedException {
@@ -192,11 +186,11 @@ public class CamflakeTest {
             {
                 Instant.now();
                 returns(
-                    execTime, // 初期化時
-                    execTime  // 実行時1回目
+                    execTime, // at initialize
+                    execTime  // when invoke next method first time.
                 );
 
-                // sleep中に例外をスローさせる
+                // Throws InterruptedException during thread sleeps.
                 Thread.sleep(anyLong);
                 result = new InterruptedException();
             }
@@ -204,14 +198,14 @@ public class CamflakeTest {
 
         Camflake camflake = new Camflake(new TestMachineId(), Instant.EPOCH);
 
-        // 予めカウンタを上限に達した状態に変更してリトライさせる
+        // force update sequence ID to maximum to test retry.
         Deencapsulation.setField(camflake, "counter", new AtomicInteger(SEQUENCE_MAX));
 
         camflake.next();
     }
 
     /**
-     * マシンIDとして1を返すテスト用のユーティリティクラス
+     * This is a test utility class of MachineId, which always returns 1 as a machine ID.
      */
     private class TestMachineId implements MachineId {
 
