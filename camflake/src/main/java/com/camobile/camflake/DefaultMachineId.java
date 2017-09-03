@@ -7,12 +7,12 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * ローカルマシンのIPアドレスの下16bitをもとに生成されるマシンIDです。
+ * Generates Machine ID from latter 16-bits of the host's IP address.
  */
 class DefaultMachineId implements MachineId {
 
     /**
-     * Logger
+     * Logger.
      */
     private static Logger log = LoggerFactory.getLogger(MachineId.class);
 

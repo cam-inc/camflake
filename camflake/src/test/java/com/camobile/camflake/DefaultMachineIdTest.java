@@ -11,10 +11,13 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * {@link DefaultMachineId}に対する単体テスト
+ * Unit tests for {@link DefaultMachineId}.
  */
 public class DefaultMachineIdTest {
 
+    /**
+     * Test if expected machine ID returns.
+     */
     @Test
     public void testGetId(@Mocked InetAddress inetAddress) {
         new Expectations() {
@@ -31,6 +34,9 @@ public class DefaultMachineIdTest {
         assertThat(testee.getId(), is(1));
     }
 
+    /**
+     * Throws CamflakeEception if Error occurs during get host's IP Address.
+     */
     @Test(expected = CamflakeException.class)
     public void testGetIdThrowsExceptionWhenErrorOccurs() throws Exception {
         new Expectations(InetAddress.class) {
